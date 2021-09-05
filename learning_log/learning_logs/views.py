@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import renderfrom django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+
+from .models import Topic
+from .forms import TopicForm
 
 # Create your views here.
 
@@ -18,3 +22,21 @@ def topic(request, topic_id):
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
+
+
+def new_topic(request):
+    #adiciona um novo assunto
+    if request.method != 'POST':
+        #nenhum dado submetido, cria um formulário em branco
+        form = TopicForm()
+
+    else:
+        #se recebe dados do POST, processa-os
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('learning_logs:topics'))
+
+
+    context = {'form': form}
+    return render(request, 'learning_logs/new_topic.html', context)

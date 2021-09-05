@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>Topics</h1>
+<h1>Tópicos</h1>
 <ul>
     {% for topic in topics %}
         <li>
@@ -13,5 +13,7 @@
         <li>Nenhum tópico foi adicionado ainda</li>
     {% endfor %}
 </ul>
+
+<a href="{% url 'learning_logs:new_topic' %}">Crie um novo assunto:</a>
 
 {% endblock content %}
